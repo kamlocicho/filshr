@@ -26,5 +26,6 @@ func ConnectDatabase() *sql.DB {
 	if err := db.Ping(); err != nil {
 		log.Fatalf("Error initializing the database: %v", err)
 	}
+	fmt.Println("Connected to the database")
 	return db
 }
