@@ -57,12 +57,12 @@ func FileUpload(r *http.Request, filePath string) (string, error) {
 		return "", err
 	}
 
-	croppedImage, err := CropImage(img, 0, 0, 500, 500)
-	if err != nil {
-		return "", err
-	}
-	// resizedImg := ResizeImage(img, 300, 300)
-	err = SaveImage(croppedImage, format, filePath+"cropped_image_test")
+	// croppedImage, err := CropImage(img, 0, 0, 500, 500)
+	// if err != nil {
+	// 	return "", err
+	// }
+	resizedImg := ResizeImage(img, 2000, 1000)
+	err = SaveImage(resizedImg, format, filePath+"resized_image_test")
 	if err != nil {
 		return "", err
 	}
@@ -143,7 +143,7 @@ func bilinearInterpolate(c00, c10, c01, c11 color.Color, dx, dy float64) (uint8,
 
 func CropImage(img image.Image, x, y, width, height int) (image.Image, error) {
 	if img.Bounds().Dx() < width+x || img.Bounds().Dy() < height+y {
-		return nil, fmt.Errorf("one of the boundaries is bigger than the image itself")
+		return nil, fmt.Errorf("out of bounds crop")
 	}
 
 	cropRect := image.Rect(x, y, x+width, y+width)
