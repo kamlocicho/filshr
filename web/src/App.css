@@ -1,0 +1,19 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.text-white {
+    color: rgb(237 237 237);
+}
+
+.link {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+    text-decoration: none;
+
+    &:hover {
+        opacity: .8;
+    }
+}

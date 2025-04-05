@@ -1,18 +1,26 @@
 package main
 
 import (
+	"filshr/middleware"
 	"filshr/routes"
 	"filshr/utils"
-	"log"
+	"fmt"
 	"net/http"
 )
 
 func main() {
 	db := utils.ConnectDatabase()
-	http.HandleFunc("/upload", routes.UploadHandler(db))
-	http.HandleFunc("/", routes.GetAsset)
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal("Error starting up the server: ", err)
+	router := http.NewServeMux()
+
+	router.HandleFunc("POST /upload", routes.UploadHandler(db))
+	router.HandleFunc("GET /", routes.GetAsset)
+
+	server := http.Server{
+		Addr:    ":8080",
+		Handler: middleware.Logging(router),
 	}
+
+	fmt.Println("Server running on port 8080")
+	server.ListenAndServe()
 }
